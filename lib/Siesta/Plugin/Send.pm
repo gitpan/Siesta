@@ -1,4 +1,4 @@
-# $Id: Send.pm 1176 2003-07-13 15:13:22Z richardc $
+# $Id: Send.pm 1179 2003-07-13 15:13:22Z richardc $
 package Siesta::Plugin::Send;
 use strict;
 use Siesta::Plugin;

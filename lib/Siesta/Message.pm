@@ -3,14 +3,14 @@ package Siesta::Message;
 use Siesta;
 use Siesta::Deferred;
 use Mail::Address;
-use Carp qw( croak );
+use Carp qw( carp croak );
 use Storable qw(dclone);
 use base qw( Email::Simple Class::Accessor::Fast );
 __PACKAGE__->mk_accessors(qw( plugins ));
 
 =head1 NAME
 
-Siesta::Message
+Siesta::Message - a message in the system
 
 =head1 METHODS
 
@@ -123,24 +123,19 @@ sub defer {
     Siesta::Deferred->create({
         @_,
         plugins => join(',', @{ $self->plugins } ),
-        message => $self->as_string,
+        message => $self,
     });
 }
 
+
+# XXX compatibility shim, excise soonest
 sub resume {
     my $self = shift;
-    my $id = shift;
-    my $container = Siesta::Deferred->retrieve( $id )
-      or croak "couldn't load $id";
+    my $id   = shift;
 
-    my $mail = $container->message;
-    $mail->plugins([ map {
-        Siesta::Plugin->retrieve( $_ )->promote
-      } split /,/, $container->plugins ]);
-
-    $container->delete;
-
-    $mail->process;
+    carp "Siesta::Message->resume is deprected, use resume on a Siesta::Deferred object instead";
+    my $deferred = Siesta::Deferred->retrieve( $id );
+    $deferred->resume;
 }
 
 sub process {

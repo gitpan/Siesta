@@ -1,4 +1,4 @@
-# $Id: Sendmail.pm 997 2003-05-30 07:52:55Z richardc $
+# $Id: Sendmail.pm 1429 2003-10-16 16:39:28Z richardc $
 package Siesta::Send::Sendmail;
 use strict;
 
@@ -46,11 +46,14 @@ sub send {
     my $sendmail_limit = 80;
 
     while (my @local = splice @to, 0, $sendmail_limit) {
-        local *SENDMAIL;
-        open SENDMAIL, "|/usr/sbin/sendmail -oi -f $from " . join( ' ', @local )
-          or die "couldn't fork sendmail $!";
-        print SENDMAIL $message->as_string;
-        close SENDMAIL
+        my $pid = open my $sendmail, '|-';
+        die "couldn't fork $!" unless defined $pid;
+        unless ($pid) {
+            exec '/usr/sbin/sendmail', '-oi', '-f', $from, @local;
+            die "exec failed $!";
+        }
+        print $sendmail $message->as_string;
+        close $sendmail
           or die "problem closing sendmail $! $?";
     }
 

@@ -28,14 +28,26 @@ sub handler {
 
     my $cgi = CGI->new;
     my $session_id = $cgi->cookie( Cookie );
-    tie my %session, 'Apache::Session::SharedMem', $session_id,
-      +{ expires_in => 60 * 60 }; # 1 hour
+    my %session;
+    # try the session in the cookie, or a new one
+    for my $id ($session_id, undef) {
+        eval {
+            tie %session, 'Apache::Session::SharedMem', $id,
+              +{ expires_in => 24 * 60 * 60 }; # 24 hours
+        };
+        last unless $@;
+    }
 
-    my @headers;
-    push @headers, [ 'Set-Cookie' =>
-                       $cgi->cookie(-name  => Cookie,
-                                    -value => $session{_session_id}) ]
-      unless $session_id;
+    unless ( $session{_session_id} ) {
+        $r->log_reason( "couldn't get session" );
+        return SERVER_ERROR;
+    }
+
+    my @headers = (
+        [ 'Set-Cookie' =>
+            $cgi->cookie(-name  => Cookie,
+                         -value => $session{_session_id}) ]
+       );
 
     my $params = {
         set_header => sub { push @headers, @_; return },

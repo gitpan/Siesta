@@ -40,6 +40,7 @@ lib/Siesta/Pref.pm
 lib/Siesta/Send/Sendmail.pm
 lib/Siesta/Send/Test.pm
 lib/Siesta/Subscription.pm
+lib/Siesta/Test.pm
 lib/Siesta/Member.pm
 lib/Siesta/UserGuide.pod
 lib/Siesta/Web.pm
@@ -78,7 +79,6 @@ t/10plugin_unsubscribe.t
 t/20fullsend.t
 t/30nacho.t
 t/config
-t/lib/Siesta/Test.pm
 web-frontend/lib/I_SHOULDNT_EXIST.tt2
 web-frontend/lib/_errors_list.tt2
 web-frontend/lib/_footer.tt2

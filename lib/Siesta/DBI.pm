@@ -5,6 +5,37 @@ use base 'Class::DBI::BaseDSN';
 __PACKAGE__->set_db( 'Main', @Siesta::Config::STORAGE );
 __PACKAGE__->mk_classdata('load_alias');
 
+=head1 NAME
+
+Siesta::DBI - base class extending Class::DBI
+
+=head1 DESCRIPTION
+
+most things in the system will be a subclass of Siesta::DBI, giving
+
+=head1 METHODS
+
+=head2 load_alias( $name )
+
+Sets the load_alias of a class to be $name.  This is used in
+conjunction with ->load to provide a shortcut to a serialised item.
+
+=head2 load( $id_or_name )
+
+Attempt to retrieve an object using either it's well-known name or the
+row id.
+
+It's used like so:
+
+ package User;
+ use base 'Siesta::DBI';
+ __PACKAGE__->load_alias( 'email' );
+
+ # time passes ...
+ my $user =  User->load( 'jay@front-of.quick.stop';
+
+=cut
+
 sub load {
     my $class = shift;
     my $id = shift;
@@ -15,6 +46,13 @@ sub load {
     return unless $item;
     return $item;
 }
+
+
+=head1 init_db
+
+run the database creation script that lives in __DATA__
+
+=cut
 
 sub init_db {
     my $class = shift;

@@ -1,8 +1,8 @@
-# $Id: Siesta.pm 1382 2003-09-01 16:12:40Z richardc $
+# $Id: Siesta.pm 1435 2003-10-17 13:35:50Z richardc $
 package Siesta;
 use strict;
 use vars qw/$VERSION $tt/;
-$VERSION = '0.65';
+$VERSION = '0.66';
 
 use Siesta::List;
 use Siesta::Message;
@@ -66,7 +66,7 @@ sub process {
 
 my $sender;
 
-=item ->sender
+=head2 ->sender
 
 Return the current sender.
 
@@ -80,7 +80,7 @@ sub sender {
     $sender || Siesta->set_sender('Sendmail');
 }
 
-=item ->set_sender ($class, @options)
+=head2 ->set_sender ($class, @options)
 
 Set the current sender to the given class.
 This will pass on any options you give it automatically.
@@ -98,7 +98,7 @@ sub set_sender {
     $sender = $class->new(@_);
 }
 
-=item ->log ($message, $level)
+=head2 ->log ($message, $level)
 
 Log message as long as level is below the value set in
 I<$Siesta::Config::LOG_LEVEL>;
@@ -129,7 +129,7 @@ sub log {
 }
 
 
-=item ->available_plugins
+=head2 ->available_plugins
 
 Return the name of every plugin on the system.
 

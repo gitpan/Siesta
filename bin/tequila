@@ -9,7 +9,7 @@ BEGIN {
         shift;
         $Siesta::Config::CONFIG_FILE = shift;
     }
-} 
+}
 use Siesta::Config;
 
 umask 002;
@@ -24,9 +24,6 @@ if ($@) {
     print $@ if debug;
     exit 20;
 }
-
-"0 but true";
-
 
 __END__
 
@@ -68,3 +65,4 @@ Copyright (C) 2002, 2003, the Siesta dev team.
 
 Distributed under the same terms as Perl itself.
 
+=cut

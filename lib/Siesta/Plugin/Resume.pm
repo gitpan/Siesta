@@ -16,11 +16,11 @@ sub process {
         # you don't own this message, so you can't resume it
         return 1;
     }
-    unless (md5_hex( $deferred->message->as_string ) eq $hash ) {
+    unless ( $deferred->hash eq $hash ) {
         # wrong magic cookie
         return 1;
     }
-    Siesta::Message->resume( $id );
+    $deferred->resume;
     return 1;
 }
 

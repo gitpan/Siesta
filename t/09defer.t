@@ -80,7 +80,7 @@ ok( $handle, "froze something with somewhere to go" );
 @deferred = Siesta::Deferred->retrieve_all;
 is( scalar @deferred, 1, "we have 1 deferred message" );
 
-Siesta::Message->resume( $handle->id );
+$handle->resume;
 
 @deferred = Siesta::Deferred->retrieve_all;
 is( scalar @deferred, 0, "not deferred now" );
@@ -89,7 +89,7 @@ is( $Siesta::Send::Test::sent[-1]->header('reply-to'), 'spangly',
     "resumed message ran the right stages" );
 
 # check cascading delete on $user
-$message->defer(who => $user, why => 'test');
+$handle = $message->defer(who => $user, why => 'test');
 ok( $handle, "froze something with somewhere to go" );
 
 @deferred = Siesta::Deferred->retrieve_all;

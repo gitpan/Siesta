@@ -1,79 +1,50 @@
--------------------------------------
-  NOTE : this is *alpha* software
-  It will probably kill your system,
-  murder your friends and bring 
-  about the apocalypse. You have  
-  been warned. So watch it.
--------------------------------------
+=head1 Installing the modules
+
+Install like any other Perl module:
+
+ % perl Build.PL
+ % perl Build test
+ % su
+ # perl Build install
+
+During the configuration step you will be asked to name a directory to
+install the system into.  /usr/local/siesta is the default.  We'll assume
+you chose that for the rest of this document.
 
 
--------------------------------------
- * Installing the modules
--------------------------------------
+=head1 Set up the group and database
 
-Currently just install like any other Perl module :
+The first thing you'll need to do is set up a group.
 
-% perl Build.PL
-% perl Build test
-% su
-# perl Build install
+Assuming you use the default SQLite backend, or expect to create
+archives with the Archive plugin, you will need to arrange for the
+user that runs the mail process to have read and write access to
+/usr/local/siesta.
 
+Make a new group called siesta and add the mail user (usually 'mail'
+or 'exim' but check your local convention), the webserver user (if you
+also wish to use the web interface).
 
-During the install process you will be asked to provide a directory to
-install the database in. '/usr/local/siesta/' will probably be ok. 
-
-From now on we'll assume that you've chosen '/usr/local/siesta' however
-you should subsitute whatever you actually chose wherever this document 
-mentions it.
+  # nacho create-database
+  # chgrp -R siesta /usr/local/siesta
+  # chmod -R g+rwx /usr/local/siesta
 
 
-
--------------------------------------
- * Setting up the database
--------------------------------------
-
-The first thing you'll need to do is create the database. 
-
-Because of the way it will be run the user that runs the mail process 
-will need read and write access to that directory and the database that 
-goes in there. Make a new group called siesta or something and add the 
-mail user (usually 'mail' or 'exim' or something), the webserver user 
-(for when we have a web based interface, this is usually 'nobody') and, 
-if you want to, either yourself or a new user expecially for 
-configuring siesta ('siesta' is a good name for this). Then 
-
-  % sudo nacho create-database
-
-  % chgrp -R siesta /usr/local/siesta
-  
-  % chmod -R g+rwx /usr/local/siesta
-
-or some combination of these. Basically you want to end up with an empty 
-database with all the tables set up that is readable and writeable by 
-your mail user and, optionally, the web server user and anybody else you 
-want to have configuration rights for Siesta.
+=head1 Regular operation 
 
 Then read the B<Siesta::UserGuide> file using 
 
   % perldoc Siesta::UserGuide
 
-for how to create new lists and members, add members to lists, configure 
-plugins and generally administer the system.
-
-Then you'll need to create a list
- 
-  % nacho create-list <newlist>
-
-When Siesta isn't alpha software this installation process will be a lot 
-easier, we promise.
-
+for how to create new lists and members, add members to lists,
+configure plugins and generally administer the system.
 
 
 -------------------------------------
  * Installing the web frontend
 -------------------------------------
 
-You need to add a line like this to your Apache config in one of the 
+You need to add a line like this to your Apache config in one of the
 virtual server sections
 
   ScriptAliasMatch /siesta/.*\.tt2 /usr/local/siesta/web-frontend/tt2.cgi
@@ -89,8 +60,3 @@ It should be noted that the web frontend currently looks like ass. Most of the
 functionality is there but work needs to be done on making it not completely 
 braindead usability wise.
 
-
-
-
-
- 

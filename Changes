@@ -1,3 +1,6 @@
+0.62    2003-07-28
+	fixed a syntax error in Siesta::Web (I be slack)
+
 0.61    2003-07-28
 	Fix MANIFEST, ship Siesta::Build
 	Have Siesta::Web point within Config('root')/web-frontend

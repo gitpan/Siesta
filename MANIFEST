@@ -14,6 +14,7 @@ bin/bandito
 bin/nacho
 bin/tequila
 lib/Siesta.pm
+lib/Siesta/Build.pm
 lib/Siesta/Config.pm
 lib/Siesta/DBI.pm
 lib/Siesta/List.pm

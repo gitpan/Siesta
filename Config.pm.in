@@ -1,7 +1,7 @@
-# $Id: Config.pm.in 1254 2003-07-24 10:42:13Z richardc $
+# $Id: Config.pm.in 1259 2003-07-27 21:19:19Z richardc $
 package Siesta::Config;
 use strict;
-use vars qw( $CONFIG_FILE $ROOT $MESSAGES @STORAGE $ARCHIVE $LOG_PATH $LOG_LEVEL );
+use vars qw( $CONFIG_FILE $ROOT $MESSAGES @STORAGE $ARCHIVE $LOG_PATH $LOG_LEVEL $config );
 
 =head2 C<$ROOT>
 
@@ -15,9 +15,8 @@ BEGIN {
     $ROOT = '@@ROOT@@';
     $CONFIG_FILE = '@@ROOT@@/siesta.conf' unless defined $CONFIG_FILE;
 
-    my $config = AppConfig->new({
-            GLOBAL => {
-                ARGCOUNT => ARGCOUNT_ONE,
+    $config = AppConfig->new({
+            GLOBAL => {                ARGCOUNT => ARGCOUNT_ONE,
                 EXPAND => EXPAND_ALL,
             },
         },

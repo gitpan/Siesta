@@ -3,8 +3,9 @@ package Siesta::Web;
 use Apache::Constants qw( :common );
 use Template;
 use Apache::Session::SharedMem;
-use Siesta;
 use CGI;
+use Siesta;
+use Siesta::Config;
 
 use constant Cookie => 'siesta_session';
 
@@ -43,12 +44,10 @@ sub handler {
         session    => \%session,
     };
 
+    my $root = $Siesta::Config::config->('root').
     $tt ||= Template->new(
         ABSOLUTE     => 1,
-        INCLUDE_PATH => join (':',
-                              '/home/richardc/siesta-trunk/siesta/web-frontend/siesta',
-                              '/home/richardc/siesta-trunk/siesta/web-frontend/lib' ),
-       );
+        INCLUDE_PATH => "$root/web-frontend/siesta:$root/web-frontend/lib" );
 
     my $out;
     $tt->process($file, $params, \$out)

@@ -2,7 +2,7 @@
 package Siesta;
 use strict;
 use vars qw/$VERSION $tt/;
-$VERSION = '0.6';
+$VERSION = '0.61';
 
 use Siesta::List;
 use Siesta::Message;

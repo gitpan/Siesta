@@ -1,2 +1,6 @@
-1.00	2002-08-??
+0.61    2003-07-28
+	Fix MANIFEST, ship Siesta::Build
+	Have Siesta::Web point within Config('root')/web-frontend
+
+0.6	2003-07-24
 	Initial release

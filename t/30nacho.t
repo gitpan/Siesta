@@ -7,7 +7,8 @@ use Siesta::Test 'init_db';
 use Siesta::List;
 
 my $DB    = join(' ', @Siesta::Config::STORAGE);
-my @NACHO = ($^X, qw( -Iblib/lib -Iblib/arch bin/nacho -d ), $DB );
+my $CF    = "t/config";
+my @NACHO = ($^X, qw( -Iblib/lib -Iblib/arch bin/nacho -f ), $CF, '-d', $DB );
 
 system @NACHO, qw( create-member jay@front-of.quick-stop );
 is( $?, 0, "added jay" );

@@ -1,3 +1,9 @@
+0.63	2003-08-09
+	improvements to Siesta::UserGuide
+	big bug in List->set_plugins fixed (thanks Jody)
+	-f switch
+	many many more
+
 0.62    2003-07-28
 	fixed a syntax error in Siesta::Web (I be slack)
 
@@ -7,3 +13,6 @@
 
 0.6	2003-07-24
 	Initial release
+
+for full change history consult the siesta-commit archives:
+http://siesta.unixbeard.net/siesta/archive/siesta-commit/

@@ -1,4 +1,4 @@
-# $Id: List.pm 1248 2003-07-23 13:27:39Z simon $
+# $Id: List.pm 1289 2003-08-01 16:07:44Z richardc $
 use strict;
 package Siesta::List;
 use UNIVERSAL::require;
@@ -167,9 +167,7 @@ sub add_plugin {
     my $plugin = shift;
     my $pos = shift;
 
-
-	my $personal = ($plugin =~ s/^\+//);
-
+    my $personal = ($plugin =~ s/^\+//);
     my @existing = $self->plugins( $queue );
     croak "can only add 1 instance of a plugin to a queue"
       if grep { $_->name eq $plugin } @existing;
@@ -190,10 +188,8 @@ sub add_plugin {
                              name     => $plugin,
                              rank     => $pos,
                              list     => $self,
-							 personal => $personal,
+                             personal => $personal,
                          });
-
-	
 }
 
 
@@ -212,25 +208,25 @@ sub set_plugins {
     die "'$queue' doesn't look like an queue id" unless $queue =~ /^[a-z]+$/;
 
     # first, delete the plugins that don't exist in the new order
-    for ($self->_plugins) {
+    for ($self->plugins($queue)) {
         $_->delete unless $new_rank{ $_->name };
     }
 
     # then just add new ones
-    my %old = map { $_->name => 1 } $self->_plugins;
+    my %old = map { $_->name => 1 } $self->plugins($queue);
     for my $plugin (keys %new_rank) {
-		my $personal = ($plugin =~ s/^\+//);
+        my $personal = ($plugin =~ s/^\+//);
         next if $old{ $plugin };
         Siesta::Plugin->create({ name     => $plugin,
                                  list     => $self,
                                  queue    => $queue,
                                  rank     => 0,
-								 personal => $personal,
+                                 personal => $personal,
                              });
     }
 
     # and reorder all of them
-    for ($self->_plugins) {
+    for ($self->plugins($queue)) {
         $_->rank( $new_rank{ $_->name } );
         $_->update;
     }

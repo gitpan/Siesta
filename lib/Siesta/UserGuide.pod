@@ -13,6 +13,30 @@ This document should take you through setting up lists and users,  and
 generally administering your system.
 
 
+=head1 Setting up the database
+
+The first thing you need to do is create a database.
+
+Fortunately this is easy. Running
+
+	% nacho create-database
+
+should do everything for you (providing the config in your siesta.conf 
+is ok).
+
+
+=head1 Migrating a list from Mailman
+
+Use the I<bandito> tool shipped with Siesta to steal the
+config - given the path to a mailman list config db it
+should automatically create a new sistes list, subscribe any
+necessary users, set up configs and generally 'just work'.
+
+It will even migrate your archives across for you.
+
+How handy :)
+
+
 =head1 Creating a List
 
 Run this command:
@@ -239,6 +263,24 @@ remove it from the system.
   List 'myfirstlist' deleted
 
 
+
+=head1 Making backups
+
+Running the command 
+
+	% nacho create-backup 
+
+will print a shell script to STDOUT. 
+
+This shell script consists of nacho commands to restore your 
+systems to its glorious past should anything go wrong.
+
+=head1 Upgrading
+
+Simply make a backup as described above, install the latest version from CPAN and then 
+run the nacho generated script to restore your system.
+
+
 =head1 Miscellanous
 
 This will run mariach for all lists and output the html
@@ -261,7 +303,7 @@ for options.
 
 =head1 SEE ALSO
 
-L<Siesta>, L<nacho>, L<tequila>, L<mariachi>
+L<Siesta>, L<nacho>, L<tequila>, L<mariachi>, L<bandito>
 
 =cut
 

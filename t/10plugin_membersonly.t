@@ -1,7 +1,7 @@
 #!perl -w
 # $Id: 10plugin_membersonly.t,v 1.15 2003/03/26 07:16:42 muttley Exp $
 use strict;
-use Test::More tests => 6;
+use Test::More tests => 7;
 use lib qw(t/lib);
 use Siesta::Test;
 
@@ -42,8 +42,15 @@ $plugin->pref('approve', 0);
 ok( $plugin->process($mail), "rejected dante" );
 like( $message{'body'}, qr{$list_id MembersOnly dropped a message from $mail_from}, "said why" );
 
+
+
 $mail->from_raw('jack.black@holywood');
 ok( $plugin->process($mail), "jack.black isn't even on the system" );
+
+
+$plugin->pref('allowed_posters','dante@quick-stop jack.black@holywood');
+ok( !$plugin->process($mail), "accepted jack.black as an allowed user" );
+
 
 $mail->from_raw('jay@front-of.quick-stop');
 

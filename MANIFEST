@@ -28,6 +28,7 @@ lib/Siesta/Plugin/Challenge.pm
 lib/Siesta/Plugin/Debounce.pm
 lib/Siesta/Plugin/ListHeaders.pm
 lib/Siesta/Plugin/MembersOnly.pm
+lib/Siesta/Plugin/MessageFooter.pm
 lib/Siesta/Plugin/Moderated.pm
 lib/Siesta/Plugin/ReplyTo.pm
 lib/Siesta/Plugin/Resume.pm
@@ -70,12 +71,14 @@ t/09defer.t
 t/09plugin_order.t
 t/10plugin_listheaders.t
 t/10plugin_membersonly.t
+t/10plugin_messagefooter.t
 t/10plugin_replyto.t
 t/10plugin_simplesig.t
 t/10plugin_subjecttag.t
 t/10plugin_unsubscribe.t
 t/20fullsend.t
 t/30nacho.t
+t/config
 t/lib/Siesta/Test.pm
 web-frontend/lib/I_SHOULDNT_EXIST.tt2
 web-frontend/lib/_errors_list.tt2

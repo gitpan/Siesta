@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl -w
-# $Id: nacho 1256 2003-07-24 11:30:28Z richardc $
+# $Id: nacho 1292 2003-08-08 10:15:30Z richardc $
 use strict;
 use File::Path qw(mkpath);
 use File::Basename;
@@ -7,21 +7,32 @@ use Data::Dumper;
 use Tie::IxHash;
 use String::ShellQuote;
 use UNIVERSAL::require;
-
-## TODO
-# setting personal plugins
-
-# this is a nasty hack, Class::DBI isn't so hot on this one
 use Siesta::Config;
+
 BEGIN {
-    if (@ARGV && $ARGV[0] eq '-d') {
-        shift;
-        @Siesta::Config::STORAGE = split / /, shift;
-    }
-    if (@ARGV && $ARGV[0] eq 'create-database' ) {
-        require Siesta::DBI;
-        Siesta::DBI->init_db;
-        exit;
+    while (@ARGV) {
+        if ($ARGV[0] eq '-d') {
+            shift;
+            @Siesta::Config::STORAGE = split / /, shift;
+            next;
+        }
+
+        if ($ARGV[0] eq '-f') {
+            shift;
+            Siesta::Config->load_from( shift );
+            next;
+        }
+
+        # do create-database before the require of Siesta::List
+        # otherwise Siesta::List &c will choke when they come to
+        # __PACKAGE__->set_up_table
+
+        if ($ARGV[0] eq 'create-database' ) {
+            require Siesta::DBI;
+            Siesta::DBI->init_db;
+            exit;
+        }
+        last;
     }
 }
 
@@ -56,6 +67,12 @@ You can optionally pass a database to act on (the default is the
 one defined in Siesta::Config). By doing
 
         -d database
+
+
+You can also specify an alternative config file using
+
+        -f <path to config file>
+
 
 The following commands are then valid
 
@@ -122,7 +139,8 @@ $commands{'create-list'} = sub {
     $list->set_plugins( unsub => qw( UnSubscribe ) );
 
     print "Created the new list '$list_id' <$post_addr>\n";
-    print "nacho show-alias will show you what to include in /etc/aliases\n";
+    print "put this in your /etc/aliases";
+    $commands{'show-alias'}->( $list_id);
 };
 
 
@@ -161,8 +179,9 @@ $commands{'describe-list'} = sub {
         print "$key = $value\n";
     }
 
-    print "plugins : ", join( ' ', map { ($_->personal)? "+".$_->name:$_->name  } $list->plugins), "\n";
-
+    for my $queue ($list->queues) {
+        print "$queue plugins: ", join( ' ', map { ($_->personal)? "+".$_->name:$_->name  } $list->plugins( $queue )), "\n";
+    }
 };
 
 =head2 modify-list I<list_id> I<key> I<value>
@@ -607,15 +626,31 @@ $commands{'run-mariachi'} = sub {
 };
 
 
-=head2 create-backup
+=head2 create-backup [list name]
 
-print a shell script that will restore you system when run
+Prints out shell script that will restore you system when run
+
+Optionally can take a list anme and will only dump a backup script
+for that list.
 
 =cut
 
 $commands{'create-backup'} = sub {
-    my @members = Siesta::Member->retrieve_all;
-    my @lists   = Siesta::List->retrieve_all;
+    my @members;
+    my @lists;
+
+    # have we been passed a list
+    if ($_[0]) {
+        my $list = Siesta::List->load($_[0]) || die "No such list '$_[0]'\n";
+        push @lists, $list;
+        @members = $list->members();
+
+    # other wise do everything
+    } else {
+        @members = Siesta::Member->retrieve_all;
+        @lists   = Siesta::List->retrieve_all;
+    }
+
     print Siesta->bake('backup',
                        'members' => \@members,
                        'lists'   => \@lists,
@@ -644,7 +679,7 @@ my $cmd = $commands{$mode}
 $cmd->(@ARGV);
 
 exit 0;
-
+__END__
 
 =head1 SEE ALSO
 

@@ -1,5 +1,3 @@
-=head1 Stuff for pre-beta
-
 =head2 configure/install
 
 =head3 asking questions
@@ -10,21 +8,9 @@ from Config.pm.in)
 
 =head3 listening to the answers
 
-install the web-frontend somewhere (customise Siesta::Build)
-
-
-=head2 sync MANIFEST
-
-=head2 check dependencies are accurate
-
-
-
-=head1 Post beta stuff
-
 =head2 Web interface
 
 =head3 setting prefs - constrained input based on type field
-
 
 =head2 Integration with Mariachi
 
@@ -48,6 +34,9 @@ Only allow list.owner to modify a list - only Siesta::Web enforces this.
 
 In future it may be an idea to allow multiple owners per list
 
+=head2 Tests for bandito
+
+This will need a dummy Mailman config.db to test against.
 
 =head2  Import utilities
 

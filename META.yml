@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name: Siesta
-version: 0.62
+version: 0.63
 license: perl
 distribution_type: module
 requires:
@@ -9,6 +9,7 @@ requires:
   Class::DBI::BaseDSN: 0
   Class::DBI::SQLite: 0
   Digest::MD5: 0
+  Email::Folder: 0
   Email::LocalDelivery: 0.05
   Email::Simple: 1.4
   File::Basename: 0
@@ -17,8 +18,10 @@ requires:
   Mail::Address: 0
   Mail::DeliveryStatus::BounceParser: 0
   Module::Build: 0.18
+  Python::Serialise::Marshal: 0
   Storable: 0
   String::ShellQuote: 0
+  Sys::Hostname: 0
   Template: 0
   Test::More: 0
   Tie::IxHash: 0
@@ -32,7 +35,7 @@ provides:
     file: lib/Siesta/Web/FakeApache.pm
   Siesta:
     file: lib/Siesta.pm
-    version: 0.62
+    version: 0.63
   Siesta::Build:
     file: lib/Siesta/Build.pm
   Siesta::Config:
@@ -61,6 +64,8 @@ provides:
     file: lib/Siesta/Plugin/ListHeaders.pm
   Siesta::Plugin::MembersOnly:
     file: lib/Siesta/Plugin/MembersOnly.pm
+  Siesta::Plugin::MessageFooter:
+    file: lib/Siesta/Plugin/MessageFooter.pm
   Siesta::Plugin::Moderated:
     file: lib/Siesta/Plugin/Moderated.pm
   Siesta::Plugin::ReplyTo:

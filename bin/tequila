@@ -2,7 +2,21 @@
 use strict;
 use Siesta;
 
+
+
 use constant debug => 1;
+
+
+BEGIN {
+    if (@ARGV && $ARGV[0] eq '-f') {
+        shift;
+        $Siesta::Config::CONFIG_FILE = shift;
+    }
+} 
+use Siesta::Config;
+
+
+
 
 umask 002;
 
@@ -28,7 +42,7 @@ tequila - the Siesta mail injector
 
 =head1 USAGE
 
-  % cat some.mail | tequila <action> [ list name ]
+  % cat some.mail | tequila [opts] <action> [ list name ]
 
 Cat a mail to tequila passing an action list name and an optional
 action (post, sub, unsub - post being the default).
@@ -40,10 +54,19 @@ the nacho tool.
 
   % nacho create-aliases [ list name ]
 
+=head1 ALTERNATIVE CONFIG FILE
+
+By default tequila will use the config file specified in
+Siesta::Config. However by doing
+
+    % tequila -f <path to some file> <action> [ list name ]
+
+an alternative can be used instead.
+
 
 =head1 SEE ALSO
 
-L<nacho>, L<Siesta>, L<Siesa::Usage>
+L<nacho>, L<Siesta>, L<Siesa::UserGuide>
 
 =head1 COPYRIGHT
 

@@ -1,4 +1,4 @@
-# $Id: MembersOnly.pm 1229 2003-07-21 13:55:40Z richardc $
+# $Id: MembersOnly.pm 1262 2003-07-28 16:31:47Z simon $
 package Siesta::Plugin::MembersOnly;
 use strict;
 use Siesta::Plugin;
@@ -14,6 +14,9 @@ sub process {
     my $list = $self->list;
 
     return if $list->is_member( $mail->from );
+
+    return if grep { $mail->from eq $_ } split ' ', $self->pref('allowed_posters');
+
 
     # I'm not even supposed to be here today.
     my $extra = '';
@@ -62,6 +65,12 @@ sub options {
           description => "should we tell the user if their post is rejected/delayed",
           type        => "boolean",
           default     => 0,
+         },
+      'allowed_posters'
+      => {
+          description => "people allowed to post who aren't on the system",
+          type        => "string",
+          default     => "",
          },
      };
 }

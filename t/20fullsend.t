@@ -27,6 +27,8 @@ Siesta->process( action => 'post',
                  mail   =>  <<'MAIL');
 To: dealers@front-of.quick-stop
 From: Bob <bob@front-of.quick-stop>
+Mailer: hack to stop Mail::DeliveryStatus::BounceParser spewing
+X-Mailer: hack to stop Mail::DeliveryStatus::BounceParser spewing
 Subject: .
 
 --

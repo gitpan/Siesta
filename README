@@ -1,8 +1,8 @@
-README for Siesta 0.5
+README for Siesta 0.63
 
 =head1 NAME
 
-Siesta - the main class for the Siesta mailing list manager.
+Siesta - the Siesta mailing list manager.
 
 
 =head1 DEPENDENCIES
@@ -14,7 +14,8 @@ This module has external dependencies on the following modules:
  Class::DBI::BaseDSN
  Class::DBI::SQLite
  Digest::MD5
- Email::LocalDelivery	0.02
+ Email::Folder
+ Email::LocalDelivery	0.05
  Email::Simple	1.4
  File::Basename
  File::Find::Rule
@@ -22,8 +23,10 @@ This module has external dependencies on the following modules:
  Mail::Address
  Mail::DeliveryStatus::BounceParser
  Module::Build	0.18
+ Python::Serialise::Marshal
  Storable
  String::ShellQuote
+ Sys::Hostname
  Template
  Test::More
  Tie::IxHash
@@ -44,12 +47,27 @@ What changed over the last 3 revisions
 
 =over
 
-=item 1.00	2002-08-??
+=item 0.63	2003-08-09
 
-	Initial release
+	improvements to Siesta::UserGuide
+	big bug in List->set_plugins fixed (thanks Jody)
+	-f switch
+	many many more
+
+
+=item 0.62    2003-07-28
+
+	fixed a syntax error in Siesta::Web (I be slack)
+
+
+=item 0.61    2003-07-28
+
+	Fix MANIFEST, ship Siesta::Build
+	Have Siesta::Web point within Config('root')/web-frontend
+
 =back
 
 =head1 SEE ALSO
 
-L<nacho>, L<tequila>, L<Siesta::UserGuide>
+L<nacho>, L<tequila>, L<bandito>, L<Siesta::UserGuide>
 

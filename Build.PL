@@ -5,7 +5,7 @@ use Siesta::Build;
 my $build = Siesta::Build
   ->new( module_name => "Siesta",
          license     => 'perl',
-         scripts     => [ 'bin/tequila', 'bin/nacho' ],
+         scripts     => [ 'bin/tequila', 'bin/nacho', 'bin/bandito' ],
          requires    => { 'Test::More' => 0,
                           'Apache::Session::SharedMem' => 0,
                           'Class::Accessor::Fast' => 0,
@@ -32,6 +32,7 @@ my $build = Siesta::Build
                           'Tie::IxHash' => 0,
                           'Template' => 0,
                           'UNIVERSAL::require' => 0,
+                          'YAML'               => 0,
                         },
          create_makefile_pl => 'passthrough',
          dynamic_config => 1,

@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name: Siesta
-version: 0.64
+version: 0.65
 license: perl
 distribution_type: module
 requires:
@@ -28,6 +28,7 @@ requires:
   Test::More: 0
   Tie::IxHash: 0
   UNIVERSAL::require: 0
+  YAML: 0
 recommends: {}
 build_requires: {}
 conflicts: {}
@@ -37,7 +38,7 @@ provides:
     file: lib/Siesta/Web/FakeApache.pm
   Siesta:
     file: lib/Siesta.pm
-    version: 0.64
+    version: 0.65
   Siesta::Build:
     file: lib/Siesta/Build.pm
   Siesta::DBI:

@@ -183,6 +183,28 @@ You can list all the plugins installed on the system.
    A system plugin used for unsubscribing a member to the list
 
 
+or see the ones set for a particular list
+
+  % nacho show-plugins test
+  Plugins for test:
+
+  post:
+  Debounce
+  MembersOnly
+  Moderated
+  ListHeaders
+  ReplyTo
+  SubjectTag
+  MessageFooter
+  Send
+  Archive
+
+  sub:
+  Subscribe
+
+  unsub:
+  UnSubscribe
+
 Since plugins are 'just' normal Perl modules you can write your own or 
 download plugins other people have written and install them like any 
 other module. Siesta will autmatically detect them.

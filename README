@@ -1,4 +1,4 @@
-README for Siesta 0.64
+README for Siesta 0.65
 
 =head1 NAME
 
@@ -33,6 +33,7 @@ This module has external dependencies on the following modules:
  Test::More
  Tie::IxHash
  UNIVERSAL::require
+ YAML
 
 =head1 INSTALLATION
 
@@ -49,7 +50,16 @@ What changed over the last 3 revisions
 
 =over
 
-=item 0.64	2003-09-01
+=item 0.65	2003-09-01
+
+	Stealth dependency on YAML made clear.  spotted by Nick Cleaton
+
+	bandito no longer tries to import a users nomail attribute (it's a
+	TODO to have this a property of subscription)
+
+
+
+=item 0.64	2003-09-01 (#1376)
 
 	nacho {show,resume,delete}-deferred
 
@@ -59,7 +69,7 @@ What changed over the last 3 revisions
 
 	Challenge/Subscribe plugins now auto-generate passwords correctly
 
-	Fixes to Personal Plugin handling
+	Fixes to Personal Plugin handling in List->set_plugins
 
 	Changes to the behaviour of Siesta::Message->reply so that it's 
 	not a sticky about it's state
@@ -72,11 +82,6 @@ What changed over the last 3 revisions
 	big bug in List->set_plugins fixed (thanks Jody)
 	-f switch
 	many many more
-
-
-=item 0.62    2003-07-28
-
-	fixed a syntax error in Siesta::Web (I be slack)
 
 =back
 

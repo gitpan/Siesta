@@ -18,11 +18,11 @@ BEGIN {
         if (@ARGV && $ARGV[0] eq '-a') {
             shift;
             $old_archive_dir = shift;
-        }
-        
-        if (@ARGV && $ARGV[0] eq '-f') {
+        } elsif (@ARGV && $ARGV[0] eq '-f') {
             shift;
             $Siesta::Config::CONFIG_FILE = shift;
+        } else {
+            last;
         }
 
     }
@@ -151,7 +151,9 @@ foreach my $email (keys %{$data->{passwords}}) {
     print "$email ";
     my $member = Siesta::Member->find_or_create({ email => $email });
     my $nomail = ($data->{user_options}->{$email} & $flags{'DisableDelivery'} == $flags{'DisableDelivery'});
-    $member->nomail($nomail);
+    #$member->nomail($nomail);
+    #$member->password($data->{passwords}->{$email});
+	$member->update;
     $list->add_member( $member );    
 
 
@@ -162,6 +164,10 @@ print "\n\n";
 
 
 print "Adding plugins : ";
+# first qet the sub and unsub queues out of the way
+$list->set_plugins( sub   => qw(Subscribe)   );
+$list->set_plugins( unsub => qw(UnSubscribe) );
+
 my @plugins = qw(Debounce MembersOnly Moderated ListHeaders ReplyTo SubjectTag MessageFooter Send Archive);
 print join ", ", @plugins;
 print "\n\n";
@@ -222,9 +228,16 @@ print "MessageFooter => ",$data->{'description'},"\n";
 
 # where are we going to get the mails from
 my $in     = $old_archive_dir || $data->{'public_archive_file_dir'};
-my $folder = Email::Folder->new($in);
 
-unless($folder) {
+
+unless (-e $in) {   
+    warn "No such file or dir '$in'\n";
+    goto FAIL;
+}
+
+my $folder;
+
+unless($folder = Email::Folder->new($in)) {
     warn "Couldn't open '$in' to read archives from\n";
     goto FAIL;
 }
@@ -232,6 +245,12 @@ unless($folder) {
 # work out where to stick them
 my $name = $list->name;
 my $path = "$Siesta::Config::ARCHIVE/$name/";
+
+unless (-e $path) {
+    warn "No such file or dir '$in'\n";
+    goto FAIL;
+}
+
 
 # and then deliver each one
 foreach my $mail ($folder->messages()) {

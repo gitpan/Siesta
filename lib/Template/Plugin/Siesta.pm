@@ -130,7 +130,7 @@ sub ACTION_register {
 
 sub ACTION_login {
     my $self = shift;
-    my ($email) = $self->_getParam('email', '(\S{6,40})' );
+    my ($email) = $self->_getParam('email', '(\S+)' );
     my ($pass) =  $self->_getParam('pass',  '(\S+)' );
 
     my $user = Siesta::Member->load( $email ) or return;

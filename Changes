@@ -1,4 +1,11 @@
-0.64	2003-09-01
+0.65	2003-09-01
+	Stealth dependency on YAML made clear.  spotted by Nick Cleaton
+
+	bandito no longer tries to import a users nomail attribute (it's a
+	TODO to have this a property of subscription)
+
+
+0.64	2003-09-01 (#1376)
 	nacho {show,resume,delete}-deferred
 
 	Siesta::Plugin::Archive now allows you to configure its output path
@@ -7,7 +14,7 @@
 
 	Challenge/Subscribe plugins now auto-generate passwords correctly
 
-	Fixes to Personal Plugin handling
+	Fixes to Personal Plugin handling in List->set_plugins
 
 	Changes to the behaviour of Siesta::Message->reply so that it's 
 	not a sticky about it's state

@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl -w
-# $Id: nacho 1350 2003-08-14 07:48:09Z richardc $
+# $Id: nacho 1366 2003-08-23 08:35:54Z simon $
 use strict;
 use File::Path qw(mkpath);
 use File::Basename;
@@ -442,7 +442,7 @@ $commands{'   '} = sub { };
 #
 #####
 
-=head2 show-plugins
+=head2 show-plugins <list id>
 
 List all plugins available to the system or just the plugins
 for a list.
@@ -463,8 +463,12 @@ $commands{'show-plugins'} = sub {
         my $list = Siesta::List->load($_)
           or die "No list '$_'!\n";
         print "Plugins for $_:\n";
-        foreach my $plugin ($list->plugins('post')) {
-            print $plugin->name,"\n";
+
+        foreach my $queue ($list->queues()) {
+            print "\n$queue:\n";
+            foreach my $plugin ($list->plugins($queue)) {
+                print $plugin->name,"\n";
+            }
         }
     }
 };
@@ -521,8 +525,14 @@ sub _plugin_list_options {
     my $list = Siesta::List->load($list_id)
       or die "Not a valid list $list_id\n";
 
-    my %plugins = map { $_->name => $_ } $list->plugins;
-    my $plugin  = $plugins{$plugin_id}
+	my @plugins;
+	foreach my $queue ($list->queues) {
+		 push @plugins, $list->plugins($queue);
+	}
+
+    my %plugins = map { $_->name => $_ } @plugins;
+    
+	my $plugin  = $plugins{$plugin_id}
       or die "That plugin is not used in the list '$list_id'\n";
 
 
@@ -751,7 +761,8 @@ sub usage {
 }
 
 # not enough arguments
-die usage() . "\n" unless @ARGV;
+my $usage = usage();
+die "$usage\n" unless @ARGV;
 
 # what are we doing?
 my $mode = shift @ARGV;

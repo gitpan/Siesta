@@ -1,4 +1,4 @@
-# $Id: Config.pm.in 1347 2003-08-13 20:50:46Z richardc $
+# $Id: Config.pm.in 1362 2003-08-21 15:35:31Z simon $
 package Siesta::Config;
 use strict;
 use vars qw( $CONFIG_FILE $ROOT $MESSAGES @STORAGE $ARCHIVE $LOG_PATH $LOG_LEVEL $config );
@@ -65,7 +65,7 @@ By default - 3
 
 The DSN for our local DB
 
-By default - dbi:SQLite:@@ROOT@@/database/
+By default - dbi:SQLite:@@ROOT@@/database
 
 =item storage_user
 

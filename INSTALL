@@ -6,6 +6,11 @@
   been warned. So watch it.
 -------------------------------------
 
+
+-------------------------------------
+ * Installing the modules
+-------------------------------------
+
 Currently just install like any other Perl module :
 
 % perl Build.PL
@@ -15,9 +20,17 @@ Currently just install like any other Perl module :
 
 
 During the install process you will be asked to provide a directory to
-install the database in. /usr/local/siesta/ will probably be ok. The 
-installation process doens't create directory for you so you may need to 
-do that.
+install the database in. '/usr/local/siesta/' will probably be ok. 
+
+From now on we'll assume that you've chosen '/usr/local/siesta' however
+you should subsitute whatever you actually chose wherever this document 
+mentions it.
+
+
+
+-------------------------------------
+ * Setting up the database
+-------------------------------------
 
 The first thing you'll need to do is create the database. 
 
@@ -40,13 +53,44 @@ database with all the tables set up that is readable and writeable by
 your mail user and, optionally, the web server user and anybody else you 
 want to have configuration rights for Siesta.
 
-Then read the MANUAL file in the docs directory for how to create new 
-lists and users, add users to lists, configure plugins and generally 
-administer the system.
+Then read the B<Siesta::UserGuide> file using 
+
+  % perldoc Siesta::UserGuide
+
+for how to create new lists and members, add members to lists, configure 
+plugins and generally administer the system.
 
 Then you'll need to create a list
  
-  % nacho add-list newlist
+  % nacho create-list <newlist>
 
 When Siesta isn't alpha software this installation process will be a lot 
 easier, we promise.
+
+
+
+-------------------------------------
+ * Installing the web frontend
+-------------------------------------
+
+You need to add a line like this to your Apache config in one of the 
+virtual server sections
+
+  ScriptAliasMatch /siesta/.*\.tt2 /usr/local/siesta/web-frontend/tt2.cgi
+
+Then you need to copy the directory 
+
+    /usr/local/siesta/web-frontend/siesta 
+
+to the document root of the virtual server you've set the ScriptAlias for and 
+away you go.
+
+It should be noted that the web frontend currently looks like ass. Most of the 
+functionality is there but work needs to be done on making it not completely 
+braindead usability wise.
+
+
+
+
+
+ 

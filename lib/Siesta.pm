@@ -1,8 +1,8 @@
-# $Id: Siesta.pm 1374 2003-09-01 12:45:09Z richardc $
+# $Id: Siesta.pm 1382 2003-09-01 16:12:40Z richardc $
 package Siesta;
 use strict;
 use vars qw/$VERSION $tt/;
-$VERSION = '0.64';
+$VERSION = '0.65';
 
 use Siesta::List;
 use Siesta::Message;

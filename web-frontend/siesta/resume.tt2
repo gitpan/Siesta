@@ -1,0 +1,17 @@
+[% USE Siesta( 'action' => 'resume_message' ) %]
+[% INCLUDE _header.tt2 %]
+
+[% IF Siesta.success %]
+	message set on its way
+[% ELSE %]
+	[% deferred = Siesta.deferred( cgi.param('id') ) %]
+<pre>
+[% deferred.message.as_string | html %]
+</pre>
+<form><input type="hidden" name="id" value="[% cgi.param('id') %]">
+<input type="submit" name="submit" value="Send on">
+</form>
+[% END %]
+
+
+[% INCLUDE _footer.tt2 %]

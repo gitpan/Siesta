@@ -1,0 +1,6 @@
+In order to complete the requested action either reply to this mail,
+or go to this web page.
+
+resume [% deferred.id %] [% deferred.hash %]
+
+http://siesta.unixbeard.net/siesta/resume.tt2?id=[% deferred.id %]

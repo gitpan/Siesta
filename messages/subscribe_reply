@@ -1,0 +1,5 @@
+Hi,
+ You have been successfully subscribed to [% list.name %]
+
+Enjoy,
+- Siesta::Plugin::Subscribe

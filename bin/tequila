@@ -1,0 +1,53 @@
+#!/usr/local/bin/perl
+use strict;
+use Siesta;
+
+use constant debug => 1;
+
+umask 002;
+
+eval {
+    my $siesta = Siesta->new;
+    $siesta->process( action => $ARGV[0], list => $ARGV[1], mail => \*STDIN );
+};
+
+if ($@) {
+    # let the MTA know we're deferring.
+    print $@ if debug;
+    exit 20;
+}
+
+"0 but true";
+
+
+__END__
+
+=head1 NAME
+
+tequila - the Siesta mail injector
+
+=head1 USAGE
+
+  % cat some.mail | tequila <action> [ list name ]
+
+Cat a mail to tequila passing an action list name and an optional
+action (post, sub, unsub - post being the default).
+
+This program will almost never be called directly. Instead it
+will be called from an aliases file by the MTA. The appropriate
+set of aliases for a list can be generated automatically by using
+the nacho tool.
+
+  % nacho create-aliases [ list name ]
+
+
+=head1 SEE ALSO
+
+L<nacho>, L<Siesta>, L<Siesa::Usage>
+
+=head1 COPYRIGHT
+
+(C)opyright 2002, 2003, the Siesta dev team.
+
+Distributed under the same terms as Perl itself.
+

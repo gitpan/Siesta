@@ -1,0 +1,55 @@
+README for Siesta 0.5
+
+=head1 NAME
+
+Siesta - the main class for the Siesta mailing list manager.
+
+
+=head1 DEPENDENCIES
+
+This module has external dependencies on the following modules:
+
+ Apache::Session::SharedMem
+ Class::Accessor::Fast
+ Class::DBI::BaseDSN
+ Class::DBI::SQLite
+ Digest::MD5
+ Email::LocalDelivery	0.02
+ Email::Simple	1.4
+ File::Basename
+ File::Find::Rule
+ File::Path
+ Mail::Address
+ Mail::DeliveryStatus::BounceParser
+ Module::Build	0.18
+ Storable
+ String::ShellQuote
+ Template
+ Test::More
+ Tie::IxHash
+ UNIVERSAL::require
+
+=head1 INSTALLATION
+
+ perl Build.PL
+ perl Build test
+
+and if all goes well
+
+ perl Build install
+
+=head1 HISTORY
+
+What changed over the last 3 revisions
+
+=over
+
+=item 1.00	2002-08-??
+
+	Initial release
+=back
+
+=head1 SEE ALSO
+
+L<nacho>, L<tequila>, L<Siesta::UserGuide>
+

@@ -9,6 +9,7 @@ my $build = Siesta::Build
          requires    => { 'Test::More' => 0,
                           'Apache::Session::SharedMem' => 0,
                           'Class::Accessor::Fast' => 0,
+                          'Class::DBI' => '0.93', # older versions don't do TEMP properly
                           'Class::DBI::BaseDSN' => 0,
                           'Class::DBI::SQLite' => 0,
                           'Digest::MD5' => 0,
@@ -23,8 +24,9 @@ my $build = Siesta::Build
                           # Module::Build 0.18 is the first release with
                           # working scripts shebang rewriting
                           'Module::Build' => '0.18',
-                            'Python::Serialise::Marshal' => 0,
+                          'Python::Serialise::Marshal' => 0,
                           'Storable' => 0,
+                          'String::Random' => 0,
                           'String::ShellQuote' => 0,
                           'Sys::Hostname' => 0,
                           'Tie::IxHash' => 0,

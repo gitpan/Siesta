@@ -1,4 +1,4 @@
-# $Id: List.pm 1289 2003-08-01 16:07:44Z richardc $
+# $Id: List.pm 1334 2003-08-13 13:07:42Z richardc $
 use strict;
 package Siesta::List;
 use UNIVERSAL::require;
@@ -203,7 +203,10 @@ sub set_plugins {
     my $self = shift;
     my $queue = shift;
     my $i;
-    my %new_rank = map { $_ => ++$i } @_;
+    my %new_rank = map { (my $name = $_) =~ s/^\+//;
+                         $name => { personal => $_ ne $name,
+                                    rank     => ++$i }
+                     } @_;
 
     die "'$queue' doesn't look like an queue id" unless $queue =~ /^[a-z]+$/;
 
@@ -215,19 +218,19 @@ sub set_plugins {
     # then just add new ones
     my %old = map { $_->name => 1 } $self->plugins($queue);
     for my $plugin (keys %new_rank) {
-        my $personal = ($plugin =~ s/^\+//);
         next if $old{ $plugin };
         Siesta::Plugin->create({ name     => $plugin,
                                  list     => $self,
                                  queue    => $queue,
                                  rank     => 0,
-                                 personal => $personal,
+                                 personal => 0,
                              });
     }
 
     # and reorder all of them
     for ($self->plugins($queue)) {
-        $_->rank( $new_rank{ $_->name } );
+        $_->rank(     $new_rank{ $_->name }{rank} );
+        $_->personal( $new_rank{ $_->name }{personal} );
         $_->update;
     }
     return 1;

@@ -1,11 +1,12 @@
 --- #YAML:1.0
 name: Siesta
-version: 0.63
+version: 0.64
 license: perl
 distribution_type: module
 requires:
   Apache::Session::SharedMem: 0
   Class::Accessor::Fast: 0
+  Class::DBI: 0.93
   Class::DBI::BaseDSN: 0
   Class::DBI::SQLite: 0
   Digest::MD5: 0
@@ -20,6 +21,7 @@ requires:
   Module::Build: 0.18
   Python::Serialise::Marshal: 0
   Storable: 0
+  String::Random: 0
   String::ShellQuote: 0
   Sys::Hostname: 0
   Template: 0
@@ -35,11 +37,9 @@ provides:
     file: lib/Siesta/Web/FakeApache.pm
   Siesta:
     file: lib/Siesta.pm
-    version: 0.63
+    version: 0.64
   Siesta::Build:
     file: lib/Siesta/Build.pm
-  Siesta::Config:
-    file: lib/Siesta/Config.pm
   Siesta::DBI:
     file: lib/Siesta/DBI.pm
   Siesta::Deferred:
@@ -96,4 +96,4 @@ provides:
     file: lib/Siesta/Web/FakeApache.pm
   Template::Plugin::Siesta:
     file: lib/Template/Plugin/Siesta.pm
-generated_by: Module::Build version 0.19
+generated_by: Module::Build version 0.20

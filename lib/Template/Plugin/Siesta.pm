@@ -3,6 +3,7 @@ use strict;
 use base qw( Template::Plugin Class::Accessor::Fast );
 __PACKAGE__->mk_accessors(qw( errors context success cgi user ));
 use Siesta;
+use Siesta::Message;
 use Siesta::Deferred;
 use CGI ();
 
@@ -106,7 +107,7 @@ sub ACTION_register {
     $user->password($pass1);
     $user->update;
 
-    foreach my $list_name (@subscriptions){
+    foreach my $list_name (@subscriptions) {
         #print "list name $list_name";
         my($list) =  Siesta::List->load( $list_name );
         unless ($list) {
@@ -114,6 +115,15 @@ sub ACTION_register {
             next;
         }
         $list->add_member($user);
+
+        my $mail = Siesta::Message->new();
+        $mail->reply( to   => $list->owner->email,
+                      subject => 'web subscription',
+                      body => Siesta->bake('subscribe_notify',
+                                           list    => $list,
+                                           user    => $user,
+                                           message => $mail ),
+                     );
     }
     return 1; # success
 }
@@ -121,7 +131,7 @@ sub ACTION_register {
 sub ACTION_login {
     my $self = shift;
     my ($email) = $self->_getParam('email', '(\S{6,40})' );
-    my ($pass) =  $self->_getParam('pass',  '(\w+)' );
+    my ($pass) =  $self->_getParam('pass',  '(\S+)' );
 
     my $user = Siesta::Member->load( $email ) or return;
 

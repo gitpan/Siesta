@@ -1,4 +1,4 @@
-# $Id: MembersOnly.pm 1262 2003-07-28 16:31:47Z simon $
+# $Id: MembersOnly.pm 1348 2003-08-13 20:57:07Z richardc $
 package Siesta::Plugin::MembersOnly;
 use strict;
 use Siesta::Plugin;
@@ -15,8 +15,9 @@ sub process {
 
     return if $list->is_member( $mail->from );
 
-    return if grep { $mail->from eq $_ } split ' ', $self->pref('allowed_posters');
-
+    return if grep {
+        $mail->from eq $_
+    } split ' ', $self->pref('allowed_posters');
 
     # I'm not even supposed to be here today.
     my $extra = '';
@@ -26,7 +27,7 @@ sub process {
             why => "non member post requires approval",
             who => $list->owner);
         $mail->reply( to      => $list->owner->email,
-                      from    => $list->return_path,
+                      from    => $list->address('resume'),
                       subject => "deferred message",
                       body    => Siesta->bake('members_only_approve',
                                               list     => $list,

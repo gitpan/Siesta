@@ -2,6 +2,7 @@ package Siesta::Plugin::Challenge;
 use strict;
 use Siesta::Plugin;
 use base 'Siesta::Plugin';
+use String::Random();
 
 # suggested usage  set_plugins( subscribe => qw( Challenge Subscribe ) );
 #                  set_plugins( resume    => qw( Resume ) );
@@ -17,8 +18,9 @@ sub process {
     my $newmember = 0;     # is this a new member
     my $member = Siesta::Member->load( $mail->from );
     unless ($member) {
+        my $password = String::Random->new->randpattern('......');
         $member = Siesta::Member->create({ email    => $mail->from,
-                                           password => 'XXX_autogenerate_me' });
+                                           password => $password });
         $newmember = 1;
     }
 

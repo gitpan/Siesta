@@ -81,27 +81,17 @@ sub from {
 sub reply {
     my $self  = shift;
     my %args  = @_;
-    my $clone = $self->clone;
 
-    if ( exists $args{body} ) {
-        $clone->body_set( $args{'body'} );
-    }
+    my $new = Siesta::Message->new;
+    $new->body_set( $args{body} || $self->body );
+    $new->header_set( 'To',          $args{to}      || $self->from );
+    $new->header_set( 'From',        $args{from}    || ( $self->to )[0] );
+    $new->header_set( 'Subject',     $args{subject} ||
+                        "Re: " . ( $self->subject || "Your mail" ) );
+    $new->header_set( 'In-Reply-To', $self->header( 'Message-Id' ) );
 
-    my $to   = $args{to}   || $self->from       or return;
-    my $from = $args{from} || ( $self->to )[0]  or return;
-
-    my $subject = $args{subject} || "Re: " . ( $self->subject || "Your mail" ) ;
-
-    $clone->header_set('To', $to);
-    $clone->header_set('From',$from);
-    $clone->header_set('Subject', $subject);
-
-    my $msg_id = $clone->header('Message-Id');
-    $clone->header_set('Message-Id', undef); # this relies on the MTA adding
-    $clone->header_set('In-Reply-To', $msg_id ) if $msg_id;
-
-    $clone->send;
-    Siesta->log("Message->reply sending" . $clone->as_string, 10);
+    $new->send;
+    Siesta->log("Message->reply sending" . $new->as_string, 10);
 }
 
 =head2 send

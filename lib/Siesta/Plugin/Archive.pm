@@ -1,4 +1,4 @@
-# $Id: Archive.pm 989 2003-05-29 19:37:33Z richardc $
+# $Id: Archive.pm 1306 2003-08-11 09:24:32Z richardc $
 package Siesta::Plugin::Archive;
 use strict;
 use Siesta::Config;
@@ -7,18 +7,30 @@ use base 'Siesta::Plugin';
 use Email::LocalDelivery;
 
 sub description {
-    "save messages to maildirs";
+    "save a copy of the message to an archive."
 }
 
 sub process {
     my $self = shift;
     my $mail = shift;
 
-    my $name = $self->list->name;
-    my $path = "$Siesta::Config::ARCHIVE/$name/";
+    my $path = $self->pref('path');
     Email::LocalDelivery->deliver( $mail->as_string, $path )
         or die "local delivery into '$path' failed";
     return;
+}
+
+sub options {
+    my $self = shift;
+    my $name = $self->list->name;
+
+    +{
+        path => {
+            description => "where to drop the archives",
+            type        => "string",
+            default     => "$Siesta::Config::ARCHIVE/$name/",
+        },
+    };
 }
 
 1;

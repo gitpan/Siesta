@@ -19,7 +19,7 @@ The first thing you need to do is create a database.
 
 Fortunately this is easy. Running
 
-	% nacho create-database
+    % nacho create-database
 
 should do everything for you (providing the config in your siesta.conf 
 is ok).
@@ -44,7 +44,7 @@ Run this command:
 
   % nacho create-list myfirstlist admin@thegestalt.org \
                      myfirstlist@thegestalt.org \ 
-		     myfirstlist-bounce@thegestalt.org
+             myfirstlist-bounce@thegestalt.org
 
 which will print out. 
 
@@ -111,7 +111,7 @@ You can either subscribe members manually by creating them and inserting
 them using nacho 
 
   % nacho create-member simon@thegestalt.org
-  Member simon@thegestalt.org added	
+  Member simon@thegestalt.org added    
 
   % nacho add-member myfirstlist simon@thegestalt.org
   Member 'simon@thegestalt.org' added to list 'myfirstlist'
@@ -129,7 +129,7 @@ You can add multiple people at the same time. Que Convenient.
 
 Finally a person can subscribe by mailing 
 
-	myfirstlist-sub@thegestalt.org 
+    myfirstlist-sub@thegestalt.org 
 
 address or by going through the web interface
 
@@ -152,13 +152,13 @@ To find out all about a member, use the describe command
 
   % nacho describe-member simon@thegestalt.org
 
-	email = simon@thegestalt.org
-	lastbounce =
-	bouncing =
-	password = bar
-	nomail =
-	id = 36
-	Subscribed to : myfirstlist, somerandomlist
+    email = simon@thegestalt.org
+    lastbounce =
+    bouncing =
+    password = bar
+    nomail =
+    id = 36
+    Subscribed to : myfirstlist, somerandomlist
 
 
 To modify information that information :
@@ -254,6 +254,47 @@ they're subscribed to and then deleted from the system.
   Member 'richardc@unixbeard.net' deleted.
 
 
+=head1 Handling deferred messages
+
+Deferred messages are ones being held for approval or contain 
+administrative tasks.
+
+You can see how many deferred messages there are by doing :
+
+    % nacho show-deferred
+
+    Deferred-Id: 1
+    Reason: the hell of it
+    Owner: test@foo
+
+     From: simon@thegestalt.org
+     To: people@somewhere.org
+     Subject: some subject lin
+     Date: Wed, 13 Aug 2003 15:49:30 +0100  
+
+or you can view an individual message by supplying the id
+
+    % nacho show-deferred 1
+    From: simon@thegestalt.org
+    To: people@somewhere.org
+    Subject: some subject line
+    Date: Wed, 13 Aug 2003 15:49:30 +0100  
+
+    Hello people
+
+    Simon
+
+To resume a message simply do this :
+
+    % nacho resume-deferred 1
+    Sucessfully resumed message 1
+
+
+alternatively to delete a deferred message :
+
+    % nacho delete-deferred 1
+    Message deleted from deferral queue
+
 =head1 Deleting Lists
 
 Similarly deleting a list will unsub all member from that list and then 
@@ -268,7 +309,7 @@ remove it from the system.
 
 Running the command 
 
-	% nacho create-backup 
+    % nacho create-backup 
 
 will print a shell script to STDOUT. 
 
@@ -299,13 +340,11 @@ for options.
 
 =head1 COPYRIGHT
 
-(C)opyright, 2002 - The Siesta Dev Team 
+Copyright (C) 2002 - The Siesta Dev Team 
 
 =head1 SEE ALSO
 
 L<Siesta>, L<nacho>, L<tequila>, L<mariachi>, L<bandito>
 
 =cut
-
-
 

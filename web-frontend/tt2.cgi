@@ -1,6 +1,5 @@
 #!/usr/local/bin/perl -w
 use strict;
-use lib '/home/richardc/siesta-trunk/siesta/lib';
 use Siesta::Member;
 use Siesta::Web::FakeApache;
 use Siesta::Web;

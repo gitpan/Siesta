@@ -44,7 +44,7 @@ sub handler {
         session    => \%session,
     };
 
-    my $root = $Siesta::Config::config->('root');
+    my $root = $Siesta::Config::config->root;
     $tt ||= Template->new(
         ABSOLUTE     => 1,
         INCLUDE_PATH => "$root/web-frontend/siesta:$root/web-frontend/lib" );

@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl -w
-# $Id: nacho 1292 2003-08-08 10:15:30Z richardc $
+# $Id: nacho 1350 2003-08-14 07:48:09Z richardc $
 use strict;
 use File::Path qw(mkpath);
 use File::Basename;
@@ -46,6 +46,8 @@ if ($@) {
     exit;
 }
 
+use YAML;
+Siesta->log("nacho invoked by $< $> args\n" . Dump \@ARGV);
 
 tie my %commands, 'Tie::IxHash';
 
@@ -405,6 +407,7 @@ $commands{'modify-member'} = sub {
         (join "\n",$member->columns),"\n" unless $fields{$key};
 
     $member->$key($value);
+    $member->update;
     print "Property '$key' set to '$value' for the list $member_id\n";
 };
 
@@ -602,26 +605,106 @@ $commands{'modify-plugin'} = sub {
 
 #####
 #
+# Deferred message stuff
+#
+#####
+
+# dummy to put a space in
+$commands{'      '} = sub { };
+
+
+
+=head2 show-deferred [ deferred_id ]
+
+Show all the deferred messages or, if an id is
+passed in, show that deferred message.
+
+=cut
+
+
+$commands{'show-deferred'} = sub {
+    my $mess_id = shift;
+
+    # show an individual deferred message
+    if (defined $mess_id) {
+        my $deferred = Siesta::Deferred->retrieve($mess_id)
+            or die "No such deferred message\n";
+        print $deferred->message->as_string;
+        return;
+    }
+
+    my @all = Siesta::Deferred->retrieve_all;
+    unless (@all) {
+        print "No deferred messages\n";
+        return;
+    }
+
+    foreach my $deferred (@all) {
+        print +(
+            "Deferred-Id: ", $deferred->id,
+            "\nReason: ", $deferred->why,
+            "\nOwner: ", $deferred->who->email,
+            "\n\n From: ",    $deferred->message->header('From'),
+            "\n To: ",      $deferred->message->header('To'),
+            "\n Subject: ", $deferred->message->subject,
+            "\n Date: ",    $deferred->message->header('Date'),
+            "\n\n",
+           );
+    }
+};
+
+
+=head2 resume-deferred deferred_id
+
+Resume a deferred message.
+
+=cut
+
+$commands{'resume-deferred'} = sub {
+    my $mess_id = shift;
+
+    my $message = Siesta::Deferred->retrieve($mess_id)
+      or die "No such deferred message\n";
+
+    Siesta::Message->resume( $mess_id );
+
+    print "Sucessfully resumed message $mess_id\n";
+};
+
+$commands{'delete-deferred'} = sub {
+    my $mess_id = shift;
+
+    my $message = Siesta::Deferred->retrieve($mess_id)
+      or die "No such deferred message\n";
+
+    $message->delete;
+    print "Message deleted from deferral queue\n";
+};
+
+
+#####
+#
 # Misc stuff
 #
 #####
 
 # dummy to put a space in
-$commands{'     '} = sub { };
+$commands{'       '} = sub { };
 
-=item run-mariachi
+=head2 run-mariachi
 
 invoke mariachi to make webified archives (depends on the Archive plugin)
 
 =cut
 
 $commands{'run-mariachi'} = sub {
-    for my $list ( map { $_->name } Siesta::List->retrieve_all ) {
-        my $input  = $Siesta::Config::ARCHIVE . "/$list";
-        my $output = $Siesta::Config::ROOT . "/mariachi-html/$list";
-        mkpath($output);
-        print "invoking mariachi for $list\n";
-        system 'mariachi', '-i', $input, '-o', $output, '-n', $list;
+    for my $archive (Siesta::Plugin->search( name => 'Archive' )) {
+        $archive = $archive->promote;
+        my $input  = $archive->pref('path');
+        my $name   = $archive->list->name;
+        my $output = $Siesta::Config::ROOT . "/mariachi-html/$name";
+        print "invoking mariachi for $name\n";
+        system 'mariachi', '-i', $input, '-o', $output, '-n', $name;
     }
 };
 
@@ -639,14 +722,14 @@ $commands{'create-backup'} = sub {
     my @members;
     my @lists;
 
-    # have we been passed a list
     if ($_[0]) {
+        # we have been passed a list
         my $list = Siesta::List->load($_[0]) || die "No such list '$_[0]'\n";
         push @lists, $list;
         @members = $list->members();
-
-    # other wise do everything
-    } else {
+    }
+    else {
+        # otherwise do everything
         @members = Siesta::Member->retrieve_all;
         @lists   = Siesta::List->retrieve_all;
     }
@@ -691,7 +774,7 @@ Written by Simon Wistow <simon@thegestalt.org>
 
 =head1 COPYRIGHT
 
-(C)opyright 2002 the Siesta dev team.
+Copyright (C) 2002 the Siesta dev team.
 
 Distributed under the same terms as Perl itself.
 

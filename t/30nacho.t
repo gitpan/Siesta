@@ -1,6 +1,5 @@
 #!perl -w
 use strict;
-# use Test::More skip_all => 'nacho in a state of flux';
 use Test::More tests => 15;
 use lib qw(t/lib);
 use Siesta::Test 'init_db';
@@ -69,3 +68,4 @@ is( $?, 0, "set the plugins" );
 
 is_deeply( [ map { $_->name } $list->plugins ],
            [ qw( SimpleSig MembersOnly Send ) ], "specified set of plugins" );
+

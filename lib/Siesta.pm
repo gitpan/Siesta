@@ -1,8 +1,8 @@
-# $Id: Siesta.pm 1293 2003-08-08 10:23:07Z richardc $
+# $Id: Siesta.pm 1374 2003-09-01 12:45:09Z richardc $
 package Siesta;
 use strict;
 use vars qw/$VERSION $tt/;
-$VERSION = '0.63';
+$VERSION = '0.64';
 
 use Siesta::List;
 use Siesta::Message;
@@ -119,8 +119,8 @@ sub log {
     my $level = shift || $Siesta::Config::LOG_LEVEL;
 
     unless ($logger) {
-        $logger = IO::File->new(">$Siesta::Config::LOG_PATH")
-          or die "Couldn't open file $Siesta::Config::LOG_PATH for writing\n";
+        $logger = IO::File->new(">>$Siesta::Config::LOG_PATH")
+          or die "Couldn't open file $Siesta::Config::LOG_PATH for appending\n";
     }
 
     my $date = localtime;

@@ -1,6 +1,6 @@
 #!perl -w
 use strict;
-use Test::More tests => 19;
+use Test::More tests => 22;
 use lib qw(t/lib);
 use Siesta::Test;
 use Siesta;
@@ -87,6 +87,20 @@ is( scalar @deferred, 0, "not deferred now" );
 
 is( $Siesta::Send::Test::sent[-1]->header('reply-to'), 'spangly',
     "resumed message ran the right stages" );
+
+# check cascading delete on $user
+$message->defer(who => $user, why => 'test');
+ok( $handle, "froze something with somewhere to go" );
+
+@deferred = Siesta::Deferred->retrieve_all;
+is( scalar @deferred, 1, "we have 1 deferred message" );
+
+$user->delete;
+
+@deferred = Siesta::Deferred->retrieve_all;
+is( scalar @deferred, 0, "cascading delete" );
+
+
 
 __DATA__
 From: jay@front-of.quick-stop

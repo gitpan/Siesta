@@ -1,6 +1,6 @@
 #!perl -w
 use strict;
-use Test::More tests => 10;
+use Test::More tests => 11;
 use lib qw(t/lib);
 use Siesta::Test;
 use Siesta::List;
@@ -50,3 +50,13 @@ $list->set_plugins( post => qw( ReplyTo Archive Send ) );
 my %ids2 = map { $_->name => $_->id } $list->plugins;
 
 is_deeply( \%ids2, \%ids, "reordering not recreating" );
+
+
+# check that ids remain stable when switching things between list and personal
+$list->set_plugins( post => qw( Archive ReplyTo Send ) );
+%ids = map { $_->name => $_->id } $list->plugins;
+
+$list->set_plugins( post => qw( +ReplyTo Archive Send ) );
+%ids2 = map { $_->name => $_->id } $list->plugins;
+
+is_deeply( \%ids2, \%ids, "reordering not recreating, personal" );

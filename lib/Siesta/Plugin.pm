@@ -1,4 +1,4 @@
-# $Id: Plugin.pm 1251 2003-07-24 06:38:49Z richardc $
+# $Id: Plugin.pm 1356 2003-08-14 15:24:00Z richardc $
 package Siesta::Plugin;
 use strict;
 use Carp qw(croak);
@@ -6,6 +6,7 @@ use base 'Siesta::DBI';
 __PACKAGE__->set_up_table('plugin');
 __PACKAGE__->columns( TEMP => qw( member ));
 __PACKAGE__->has_a(   list => 'Siesta::List' );
+__PACKAGE__->has_many( prefs => 'Siesta::Pref' );
 
 sub new {
     my $pkg = shift;

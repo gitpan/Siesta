@@ -1,4 +1,19 @@
-0.63	2003-08-09
+0.64	2003-09-01
+	nacho {show,resume,delete}-deferred
+
+	Siesta::Plugin::Archive now allows you to configure its output path
+
+	Colobus HOWTO 
+
+	Challenge/Subscribe plugins now auto-generate passwords correctly
+
+	Fixes to Personal Plugin handling
+
+	Changes to the behaviour of Siesta::Message->reply so that it's 
+	not a sticky about it's state
+
+
+0.63	2003-08-09 (#1298)
 	improvements to Siesta::UserGuide
 	big bug in List->set_plugins fixed (thanks Jody)
 	-f switch

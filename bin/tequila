@@ -2,10 +2,7 @@
 use strict;
 use Siesta;
 
-
-
 use constant debug => 1;
-
 
 BEGIN {
     if (@ARGV && $ARGV[0] eq '-f') {
@@ -14,9 +11,6 @@ BEGIN {
     }
 } 
 use Siesta::Config;
-
-
-
 
 umask 002;
 
@@ -70,7 +64,7 @@ L<nacho>, L<Siesta>, L<Siesa::UserGuide>
 
 =head1 COPYRIGHT
 
-(C)opyright 2002, 2003, the Siesta dev team.
+Copyright (C) 2002, 2003, the Siesta dev team.
 
 Distributed under the same terms as Perl itself.
 

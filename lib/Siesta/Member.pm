@@ -1,4 +1,4 @@
-# $Id: Member.pm 1214 2003-07-20 11:34:10Z simon $
+# $Id: Member.pm 1357 2003-08-14 15:41:05Z richardc $
 package Siesta::Member;
 use strict;
 use Siesta::DBI;
@@ -7,6 +7,8 @@ __PACKAGE__->set_up_table( 'member' );
 __PACKAGE__->load_alias('email');
 __PACKAGE__->has_many( lists => [ 'Siesta::Subscription' => 'list' ] );
 __PACKAGE__->has_many( prefs => 'Siesta::Pref' );
+__PACKAGE__->has_many( deferred => 'Siesta::Deferred', 'who' );
+
 
 # fuck the users, fuck them up their stupid asses
 
